@@ -1,0 +1,41 @@
+{
+  "name": "winstonflight",
+  "version": "1.0.0",
+  "description": "A winston wrapper to enable adding transports by config",
+  "main": "index.js",
+  "scripts": {
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.json -t ./node_modules/ink-docstrap/template -R README.md -d './doc' -r --verbose index.js",
+    "test": "node_modules/.bin/mocha -R spec -t 5000 test/*.mocha.js",
+    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R dot -t 5000 test/*.mocha.js",
+    "travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 5000 test/*.mocha.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitmi/winstonflight.git"
+  },
+  "keywords": [
+    "util"
+  ],
+  "author": "Rockie Guo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kitmi/winstonflight/issues"
+  },
+  "homepage": "https://github.com/kitmi/winstonflight#readme",
+  "dependencies": {
+    "string": "^3.3.3",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.13.1",
+    "glob": "^7.1.2",
+    "ink-docstrap": "^1.3.0",
+    "istanbul": "^0.4.5",
+    "jsdoc": "^3.5.4",
+    "mocha": "^3.5.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "shelljs": "^0.7.8",
+    "should": "^13.0.0",
+    "winston-daily-rotate-file": "^1.7.2"
+  }
+}

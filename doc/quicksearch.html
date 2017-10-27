@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body style="background: transparent;">
+    <script src="scripts/docstrap.lib.js"></script>
+    <script src="scripts/lunr.min.js"></script>
+    <script src="scripts/fulltext-search.js"></script>
+
+    <script type="text/x-docstrap-searchdb">
+    {"global.html":{"id":"global.html","title":"Global","body":" winstonflight Global winstonFlight Global Methods winstonFlight(transports) Converts an array of transports config to an array of winston transport objects Parameters: Name Type Description transports array transports config Source: index.js Returns: Type array Example const winstonFlight = require('winstonflight'); const transports = [{ &quot;type&quot;: &quot;file&quot;, &quot;options&quot;: { &quot;level&quot;: &quot;error&quot;, &quot;filename&quot;: &quot;error.log&quot; } }, { &quot;type&quot;: &quot;daily-rotate-file&quot;, &quot;options&quot;: { &quot;level&quot;: &quot;info&quot;, &quot;filename&quot;: &quot;-all.log&quot; &quot;datePattern&quot;: &quot;yyyy-MM-dd&quot;, &quot;prepend&quot;: true } }]; const logger = new (winston.Logger)({ level: 'info', transports: winstonFlight(transports) }); × Search results Close "},"index.html":{"id":"index.html","title":"Index","body":" winstonflight Global winstonFlight winstonflight A winston wrapper to enable adding transports by config Exampleconst transports = [{ &quot;type&quot;: &quot;file&quot;, &quot;options&quot;: { &quot;level&quot;: &quot;error&quot;, &quot;filename&quot;: &quot;error.log&quot; } }, { &quot;type&quot;: &quot;daily-rotate-file&quot;, &quot;options&quot;: { &quot;level&quot;: &quot;info&quot;, &quot;filename&quot;: &quot;-all.log&quot; &quot;datePattern&quot;: &quot;yyyy-MM-dd&quot;, &quot;prepend&quot;: true } }]; const logger = new (winston.Logger)({ level: 'info', transports: winstonFlight(transports) });License MIT × Search results Close "}}
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Searcher.init();
+        });
+
+        $(window).on("message", function(msg) {
+            var msgData = msg.originalEvent.data;
+
+            if (msgData.msgid != "docstrap.quicksearch.start") {
+                return;
+            }
+
+            var results = Searcher.search(msgData.searchTerms);
+
+            window.parent.postMessage({"results": results, "msgid": "docstrap.quicksearch.done"}, "*");
+        });
+    </script>
+</body>
+</html>
