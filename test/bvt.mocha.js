@@ -15,8 +15,8 @@ const winstonFlight = require('../index.js');
 
 describe('bvt', function () {
     it('file', function (done) {
-        let errorLog = "./test/temp/error.log";
-        let allLog = "./test/temp/all.log";
+        let errorLog = path.resolve(__dirname, "./temp/error.log");
+        let allLog = path.resolve(__dirname, "./temp/all.log");
 
         const transports = [{
             "type": "file",
@@ -38,26 +38,26 @@ describe('bvt', function () {
             transports: winstonFlight(transports)
         });
 
-        sh.rm('-rf', './test/temp/*.log');
+        sh.rm('-rf', path.resolve(__dirname, './temp/*.log'));
 
         logger.info('bla bla bla ...');
         logger.error('ala ala ala ...');
 
         setTimeout(() => {
-            if (!fs.existsSync(path.resolve(errorLog))) {
+            if (!fs.existsSync(errorLog)) {
                 return done(errorLog + ' not exist!');
             }
 
-            if (!fs.existsSync(path.resolve(allLog))) {
+            if (!fs.existsSync(allLog)) {
                 return done(allLog + ' not exist!');
             }
 
             done();
-        }, 100);
+        }, 500);
     });
 
     it('file', function (done) {
-        let logFile = "./test/temp/_file.log";
+        let logFile = path.resolve(__dirname, "./temp/_file.log");
 
         const transports = [{
             "type": "daily-rotate-file",
@@ -73,19 +73,19 @@ describe('bvt', function () {
             transports: winstonFlight(transports)
         });
 
-        sh.rm('-rf', './test/temp/*.log');
+        sh.rm('-rf', path.resolve(__dirname, './temp/*.log'));
 
         logger.info('bla bla bla ...');
         logger.error('ala ala ala ...');
 
         setTimeout(() => {
-            glob('./test/temp/*_file.log', (err, files) => {
+            glob(path.resolve(__dirname, './temp/*_file.log'), (err, files) => {
                 if (err) return done(err);
 
                 if (files.length > 0) return done();
 
                 done('Log files not found!');
             });
-        }, 100);
+        }, 500);
     });
 });
