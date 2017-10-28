@@ -13,6 +13,8 @@ const glob = require('glob');
 const winston = require('winston');
 const winstonFlight = require('../index.js');
 
+sh.mkdir('-p', path.resolve(__dirname, "./temp"));
+
 describe('bvt', function () {
     it('file', function (done) {
         let errorLog = path.resolve(__dirname, "./temp/error.log");

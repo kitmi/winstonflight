@@ -1,6 +1,6 @@
 {
   "name": "winstonflight",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A winston wrapper to enable adding transports by config",
   "main": "index.js",
   "scripts": {
