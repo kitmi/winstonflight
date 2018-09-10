@@ -1,7 +1,7 @@
 "use strict";
 
 const winston = require('winston');
-const S = require('string');
+const _ = require('lodash');
 
 /**
  * Converts an array of transports config to an array of winston transport objects
@@ -35,7 +35,7 @@ const S = require('string');
  * 
  */
 module.exports = transports => transports.map(transport => {
-    let className = S('-' + transport.type).camelize().s;
+    let className = _.upperFirst(_.camelCase(transport.type));
     let classObject;
 
     //try builtin transport
@@ -45,18 +45,18 @@ module.exports = transports => transports.map(transport => {
 
     if (!classObject) {
         //try load customer transport
-        let moduleName = transport.moduleName || ('winston-' + S(transport.type).dasherize().s);
+        let moduleName = transport.moduleName || ('winston-' + _.kebabCase(transport.type));
         let transportModule = require(moduleName);
 
         classObject = transportModule[className];
 
         if (!classObject) {
             //try if it registers itself in transports
-            classObject = winston.transports[className];
+            classObject = winston.transports[className];            
+        } 
 
-            if (!classObject) {
-                throw new Error(`Unsupported transport type: ${transport.type}`);
-            }
+        if (!classObject) {
+            throw new Error(`Unsupported transport type: ${transport.type}`);            
         }
     }
 
