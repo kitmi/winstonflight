@@ -15,16 +15,19 @@ const transports = [{
 }, {
     "type": "daily-rotate-file",
     "options": {
-        "level": "info",
-        "filename": "-all.log"
-        "datePattern": "yyyy-MM-dd",
-        "prepend": true
+        level: 'info',
+        dirname: ".",
+        filename: "file-%DATE%.log",
+        datePattern: 'YYYY-MM-DD',
+        zippedArchive: true,
+        maxSize: '20m',
+        maxFiles: '14d'
     }
 }];
 
-const logger = new (winston.Logger)({
+const logger = winston.createLogger({
     level: 'info',
-    transports: winstonFlight(transports)
+    transports: winstonFlight(winston, transports)
 });
 
 ```
