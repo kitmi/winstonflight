@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.12% </span>
+        <span class="strong">93.75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/17</span>
+        <span class='fraction'>15/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">83.33% </span>
@@ -32,7 +32,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">93.75% </span>
@@ -75,11 +75,74 @@
 30
 31
 32
-33</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
@@ -99,53 +162,86 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 &nbsp;
-const winston = require('winston');
-const S = require('string');
+const _ = require('lodash');
 &nbsp;
-module.exports = transports =&gt; transports.map(transport =&gt; {
-    let className = S('-' + transport.type).camelize().s;
-    let classObject;
+/**
+ * Converts an array of transports config to an array of winston transport objects
+ * @function winstonFlight
+ * @param {array} transports - transports config
+ * @returns {array}
+ *
+ * @example
+ * const winstonFlight = require('winstonflight');
+ *
+ * const transports = [{
+ *     "type": "file",
+ *     "options": {
+ *         "level": "error",
+ *         "filename": "error.log"
+ *     }
+ * }, {
+ *     "type": "daily-rotate-file",
+ *     "options": {
+ *         "level": "info",
+ *         "filename": "-all.log"
+ *         "datePattern": "yyyy-MM-dd",
+ *         "prepend": true
+ *     }
+ * }];
+ * 
+ * const logger = new (winston.Logger)({
+ *     level: 'info',
+ *     transports: winstonFlight(winston, transports)
+ * });
+ * 
+ */
+module.exports = function (winston, transports) {
+    return transports.map(transport =&gt; {
+        let className = _.upperFirst(_.camelCase(transport.type));
+        let classObject;
 &nbsp;
-    //try builtin transport
-    if (!transport.moduleName &amp;&amp; className in winston.transports) {
-        classObject = winston.transports[className];
-    }
-&nbsp;
-    if (!classObject) {
-        //try load customer transport
-        let moduleName = transport.moduleName || ('winston-' + S(transport.type).dasherize().s);
-        let transportModule = require(moduleName);
-&nbsp;
-        classObject = transportModule[className];
-&nbsp;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!classObject) {
-            //try if it registers itself in transports
+        //try builtin transport
+        if (!transport.moduleName &amp;&amp; className in winston.transports) {
             classObject = winston.transports[className];
+        }
+&nbsp;
+        if (!classObject) {
+            //try load customer transport
+            let moduleName = transport.moduleName || ('winston-' + _.kebabCase(transport.type));
+            let transportModule = require(moduleName);
+&nbsp;
+            classObject = transportModule[className];
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!classObject) {
+                //try if it registers itself in transports
+                classObject = winston.transports[className];            
+            } 
 &nbsp;
             <span class="missing-if-branch" title="if path not taken" >I</span>if (!classObject) {
-<span class="cstat-no" title="statement not covered" >                throw new Error(`Unsupported transport type: ${transport.type}`);</span>
+<span class="cstat-no" title="statement not covered" >                throw new Error(`Unsupported transport type: ${transport.type}`);            </span>
             }
         }
-    }
 &nbsp;
-    return new classObject(transport.options);
-});</pre></td></tr>
+        return new classObject(transport.options);
+    })
+};</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Oct 27 2017 15:09:50 GMT+1100 (AEDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 28 2018 23:50:53 GMT+1000 (AEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

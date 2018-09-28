@@ -1,0 +1,6 @@
+doc
+coverage
+test
+.gitignore
+.travis.yml
+jsdoc.json

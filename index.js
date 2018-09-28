@@ -1,6 +1,5 @@
 "use strict";
 
-const winston = require('winston');
 const _ = require('lodash');
 
 /**
@@ -30,35 +29,36 @@ const _ = require('lodash');
  * 
  * const logger = new (winston.Logger)({
  *     level: 'info',
- *     transports: winstonFlight(transports)
+ *     transports: winstonFlight(winston, transports)
  * });
  * 
  */
-module.exports = transports => transports.map(transport => {
-    let className = _.upperFirst(_.camelCase(transport.type));
-    let classObject;
+module.exports = function (winston, transports) {
+    return transports.map(transport => {
+        let className = _.upperFirst(_.camelCase(transport.type));
+        let classObject;
 
-    //try builtin transport
-    if (!transport.moduleName && className in winston.transports) {
-        classObject = winston.transports[className];
-    }
-
-    if (!classObject) {
-        //try load customer transport
-        let moduleName = transport.moduleName || ('winston-' + _.kebabCase(transport.type));
-        let transportModule = require(moduleName);
-
-        classObject = transportModule[className];
-
-        if (!classObject) {
-            //try if it registers itself in transports
-            classObject = winston.transports[className];            
-        } 
-
-        if (!classObject) {
-            throw new Error(`Unsupported transport type: ${transport.type}`);            
+        //try builtin transport
+        if (!transport.moduleName && className in winston.transports) {
+            classObject = winston.transports[className];
         }
-    }
 
-    return new classObject(transport.options);
-});
+        if (!classObject) {
+            //try load customer transport
+            let moduleName = transport.moduleName || ('winston-' + _.kebabCase(transport.type));
+            let transportModule = require(moduleName); 
+            classObject = transportModule[className];
+
+            if (!classObject) {
+                //try if it registers itself in transports
+                classObject = winston.transports[className];            
+            }     
+
+            if (!classObject) {
+                throw new Error(`Unsupported transport type: ${transport.type}`);            
+            }
+        }
+
+        return new classObject(transport.options);
+    })
+};

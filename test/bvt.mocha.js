@@ -35,12 +35,12 @@ describe('bvt', function () {
             }
         }];
 
-        const logger = new (winston.Logger)({
-            level: 'info',
-            transports: winstonFlight(transports)
-        });
-
         sh.rm('-rf', path.resolve(__dirname, './temp/*.log'));
+
+        const logger = winston.createLogger({
+            level: 'info',
+            transports: winstonFlight(winston, transports)
+        });        
 
         logger.info('bla bla bla ...');
         logger.error('ala ala ala ...');
@@ -58,30 +58,30 @@ describe('bvt', function () {
         }, 500);
     });
 
-    it('file', function (done) {
-        let logFile = path.resolve(__dirname, "./temp/_file.log");
+    it('daily-rotate-file', function (done) {
+        let logDir = path.resolve(__dirname, "temp");
 
         const transports = [{
             "type": "daily-rotate-file",
             "options": {
                 level: 'info',
-                filename: logFile,
-                datePattern: 'yyyy-MM-dd',
-                prepend: true
+                dirname: logDir,
+                filename: "file-%DATE%.log",
+                datePattern: 'YYYY-MM-DD'
             }
         }];
 
-        const logger = new (winston.Logger)({
-            transports: winstonFlight(transports)
-        });
-
         sh.rm('-rf', path.resolve(__dirname, './temp/*.log'));
+
+        const logger = winston.createLogger({
+            transports: winstonFlight(winston, transports)
+        });        
 
         logger.info('bla bla bla ...');
         logger.error('ala ala ala ...');
 
         setTimeout(() => {
-            glob(path.resolve(__dirname, './temp/*_file.log'), (err, files) => {
+            glob(path.resolve(__dirname, './temp/file-*.log'), (err, files) => {
                 if (err) return done(err);
 
                 if (files.length > 0) return done();
@@ -89,5 +89,15 @@ describe('bvt', function () {
                 done('Log files not found!');
             });
         }, 500);
+    });
+
+    it('throw error', function () {
+        const transports = [{
+            "type": "unknown-transport-type",
+            "options": {
+            }
+        }];
+
+        (() => winstonFlight(winston, transports)).should.throw("Cannot find module 'winston-unknown-transport-type'");
     });
 });

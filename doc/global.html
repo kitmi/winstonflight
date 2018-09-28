@@ -315,7 +315,7 @@ const transports = [{
 
 const logger = new (winston.Logger)({
     level: &#x27;info&#x27;,
-    transports: winstonFlight(transports)
+    transports: winstonFlight(winston, transports)
 });</pre>
 
 
