@@ -97,16 +97,15 @@
 }, {
     &quot;type&quot;: &quot;daily-rotate-file&quot;,
     &quot;options&quot;: {
-        &quot;level&quot;: &quot;info&quot;,
-        &quot;filename&quot;: &quot;-all.log&quot;
-        &quot;datePattern&quot;: &quot;yyyy-MM-dd&quot;,
-        &quot;prepend&quot;: true
+        level: 'info',
+        &quot;filename&quot;: &quot;bi-%DATE%.log&quot;,
+        &quot;datePattern&quot;: &quot;YYYYMMDD&quot;
     }
 }];
 
-const logger = new (winston.Logger)({
+const logger = winston.createLogger({
     level: 'info',
-    transports: winstonFlight(transports)
+    transports: winstonFlight(winston, transports)
 });
 </code></pre><h2>License</h2><p>  MIT</p></article>
     </section>

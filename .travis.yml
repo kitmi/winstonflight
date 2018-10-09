@@ -5,4 +5,9 @@ node_js:
 cache:
   directories:
     - "node_modules"
+services:
+  - mongodb    
+before_script:
+  - sleep 5
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 script: npm run travis

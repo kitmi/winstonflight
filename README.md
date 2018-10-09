@@ -16,12 +16,8 @@ const transports = [{
     "type": "daily-rotate-file",
     "options": {
         level: 'info',
-        dirname: ".",
-        filename: "file-%DATE%.log",
-        datePattern: 'YYYY-MM-DD',
-        zippedArchive: true,
-        maxSize: '20m',
-        maxFiles: '14d'
+        "filename": "bi-%DATE%.log",
+        "datePattern": "YYYYMMDD"
     }
 }];
 

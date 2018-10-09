@@ -306,14 +306,13 @@ const transports = [{
 }, {
     &quot;type&quot;: &quot;daily-rotate-file&quot;,
     &quot;options&quot;: {
-        &quot;level&quot;: &quot;info&quot;,
-        &quot;filename&quot;: &quot;-all.log&quot;
-        &quot;datePattern&quot;: &quot;yyyy-MM-dd&quot;,
-        &quot;prepend&quot;: true
+        &quot;level&quot;: &quot;verbose&quot;,
+        &quot;filename&quot;: &quot;category2-%DATE%.log&quot;,
+        &quot;datePattern&quot;: &quot;YYYYMMDD&quot;
     }
 }];
 
-const logger = new (winston.Logger)({
+const logger = winston.createLogger({
     level: &#x27;info&#x27;,
     transports: winstonFlight(winston, transports)
 });</pre>

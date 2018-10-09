@@ -4,10 +4,10 @@
   "description": "A winston wrapper to enable adding transports by config",
   "main": "index.js",
   "scripts": {
-    "doc": "./node_modules/.bin/jsdoc -c jsdoc.json -t ./node_modules/ink-docstrap/template -R README.md -d './doc' -r --verbose index.js",
-    "test": "node_modules/.bin/mocha -R spec -t 5000 test/*.mocha.js",
-    "cover": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R dot -t 5000 test/*.mocha.js",
-    "travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 5000 test/*.mocha.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "doc": "jsdoc -c jsdoc.json -t ./node_modules/ink-docstrap/template -R README.md -d './doc' -r --verbose index.js",
+    "test": "mocha -R spec -t 5000 test/*.mocha.js",
+    "cover": "nyc --reporter=html --reporter=text mocha -t 5000 test/*.mocha.js",
+    "travis": "nyc --reporter=lcovonly mocha -t 10000 test/*.mocha.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -32,14 +32,15 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
+    "fast-file-rotate": "^1.0.1",
     "glob": "^7.1.2",
-    "ink-docstrap": "^1.3.0",
-    "istanbul": "^0.4.5",
-    "jsdoc": "^3.5.4",
+    "ink-docstrap": "^1.3.2",
+    "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
-    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^13.0.1",
     "shelljs": "^0.7.8",
     "should": "^13.0.0",
-    "winston-daily-rotate-file": "^3.3.3"
+    "winston-daily-rotate-file": "^3.3.3",
+    "winston-mongodb": "github:kitmi/winston-mongodb"
   }
 }
