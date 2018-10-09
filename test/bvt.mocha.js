@@ -136,14 +136,13 @@ describe('bvt', function () {
         }, 500);
     });
 
-    it('mongodb', function (done) {
-        let inTravis = process.env.TRAVIS;
-        let mongoUrl = inTravis ? 'mongodb://travis:test@localhost:27017' : 'mongodb://root:root@localhost:27017';
+    it('mongodb', function (done) {        
+        let mongoUrl = process.env.USER_WINSTON_MONGODB_URL || 'mongodb://root:root@localhost:27017/mydb_test?authSource=admin';
 
         const transports = [{
             "type": "mongo",
             "options": {                
-                db: mongoUrl + (inTravis ? '/mydb_test' : '/mydb_test?authSource=admin'),                
+                db: mongoUrl, 
                 format: winston.format.combine(
                     winston.format.splat(),
                     winston.format.json()
@@ -159,21 +158,15 @@ describe('bvt', function () {
         logger.end();
 
         setTimeout(() => {            
-            const MongoClient = require('mongodb').MongoClient;
-            let url = mongoUrl;
-            if (!inTravis) {
-                url += '/?authSource=admin';
-            }            
-    
-            // Database Name
-            const dbName = 'mydb_test';
-            let client = new MongoClient(url, { useNewUrlParser: true });
+            const MongoClient = require('mongodb').MongoClient;            
+            
+            let client = new MongoClient(mongoUrl, { useNewUrlParser: true });
 
             // Use connect method to connect to the server
             client.connect(function(err) {
                 assert.equal(null, err);
             
-                let db = client.db(dbName);
+                let db = client.db();
                 let collection = db.collection('log');
 
                 collection.findOne({ "meta.key1": "value1" }, function(err, doc) {

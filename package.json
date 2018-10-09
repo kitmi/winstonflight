@@ -1,13 +1,13 @@
 {
   "name": "winstonflight",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A winston wrapper to enable adding transports by config",
   "main": "index.js",
   "scripts": {
     "doc": "jsdoc -c jsdoc.json -t ./node_modules/ink-docstrap/template -R README.md -d './doc' -r --verbose index.js",
     "test": "mocha -R spec -t 5000 test/*.mocha.js",
     "cover": "nyc --reporter=html --reporter=text mocha -t 5000 test/*.mocha.js",
-    "travis": "nyc --reporter=lcovonly mocha -t 10000 test/*.mocha.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "travis": "USER_MONGODB_URL='mongodb://travis:test@localhost:27017/mydb_test' nyc --reporter=lcovonly mocha -t 10000 test/*.mocha.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
