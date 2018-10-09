@@ -137,7 +137,7 @@ describe('bvt', function () {
     });
 
     it('mongodb', function (done) {        
-        let mongoUrl = process.env.USER_WINSTON_MONGODB_URL || 'mongodb://root:root@localhost:27017/mydb_test?authSource=admin';
+        let mongoUrl = process.env.USER_MONGODB_URL || 'mongodb://root:root@localhost:27017/mydb_test?authSource=admin';
 
         const transports = [{
             "type": "mongo",
