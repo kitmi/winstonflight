@@ -151,6 +151,7 @@ describe('bvt', function () {
         }];        
 
         const logger = winston.createLogger({
+            useMetaKey: 'metadata',
             transports: winstonFlight(winston, transports)
         });        
 
