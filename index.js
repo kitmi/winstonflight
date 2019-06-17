@@ -21,7 +21,8 @@ const CLASSES_MAPPING = {
     'pusher': [ 'winston-pusher', 'PusherLogger' ],
     'simpledb': [ 'winston-simpledb', 'SimpleDB' ],
     'sumologic': [ 'winston-sumologic-transport', 'SumoLogic' ],
-    'winlog2': [ 'winston-winlog2' ] 
+    'winlog2': [ 'winston-winlog2' ],
+    'elasticsearch': [ 'winston-elasticsearch' ]    
 };
 
 const ALIAS = {
@@ -30,7 +31,8 @@ const ALIAS = {
     'azure': [ 'azuretable' ],
     'google-stack-driver': [ 'stackdriver' ],
     'graylog2': [ 'graylog' ],
-    'winlog2': [ 'winlog', 'windows-event-log' ]
+    'winlog2': [ 'winlog', 'windows-event-log' ],
+    'elasticsearch': [ 'kibana' ]
 };
 
 (function mergeAlias() {
