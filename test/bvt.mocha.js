@@ -141,17 +141,18 @@ describe('bvt', function () {
 
         const transports = [{
             "type": "mongo",
-            "options": {                
+            "options": {      
+                metaKey: 'meta',          
                 db: mongoUrl, 
                 format: winston.format.combine(
                     winston.format.splat(),
                     winston.format.json()
-                ),               
+                )               
             }
         }];        
 
         const logger = winston.createLogger({
-            useMetaKey: 'metadata',
+            useMetaKey: 'meta',
             transports: winstonFlight(winston, transports)
         });        
 
@@ -199,6 +200,7 @@ describe('bvt', function () {
             }
         }];
 
-        (() => winstonFlight(winston, transports)).should.throw("Cannot find module 'winston-unknown-transport-type'");
+        //winstonFlight(winston, transports);
+        (() => winstonFlight(winston, transports)).should.throw(/Cannot find module/);
     });
 });

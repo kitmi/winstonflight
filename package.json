@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
-    "fast-file-rotate": "github:kitmi/fast-file-rotate",
+    "fast-file-rotate": "^1.0.1",
     "glob": "^7.1.2",
     "ink-docstrap": "^1.3.2",
     "jsdoc": "^3.6.2",
@@ -37,7 +37,7 @@
     "nyc": "^14.1.1",
     "shelljs": "^0.7.8",
     "should": "^13.0.0",
-    "winston": "github:kitmi/winston",
+    "winston": "kitmi/winston",
     "winston-daily-rotate-file": "^3.3.3",
     "winston-elasticsearch": "^0.7.12",
     "winston-mongodb": "^5.0.0"
