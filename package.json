@@ -35,7 +35,7 @@
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.5",
     "should": "^13.0.0",
     "winston": "kitmi/winston",
     "winston-daily-rotate-file": "^3.3.3",
